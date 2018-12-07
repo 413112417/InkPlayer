@@ -1,7 +1,11 @@
 #include <jni.h>
 #include <string>
+#include "InkLog.h"
+#include "IDemux.h"
+#include "InkDemux.h"
 
 extern "C" {
+#include <android/log.h>
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libavcodec/jni.h>
@@ -9,10 +13,13 @@ extern "C" {
 #include <libswresample/swresample.h>
 }
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_pers_hexuren_inkplayer_MainActivity_stringFromJNI(
-        JNIEnv *env,
-        jobject /* this */) {
-    std::string hello = avformat_configuration();
-    return env->NewStringUTF(hello.c_str());
+extern "C"
+JNIEXPORT void JNICALL
+Java_pers_hexuren_inkplayer_InkPlayer_open(JNIEnv *env, jclass type, jstring path_) {
+    const char *path = env->GetStringUTFChars(path_, 0);
+
+    IDemux *demux = new InkDemux();
+    demux->open(path);
+
+    env->ReleaseStringUTFChars(path_, path);
 }

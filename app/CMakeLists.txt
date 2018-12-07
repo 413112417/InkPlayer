@@ -37,7 +37,11 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        src/main/cpp/inkplayer.cpp)
+        src/main/cpp/InkLog.cpp
+        src/main/cpp/inkplayer.cpp
+        src/main/cpp/IDemux.cpp
+        src/main/cpp/InkDemux.cpp
+        src/main/cpp/InkData.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -60,6 +64,7 @@ target_link_libraries( # Specifies the target library.
         inkplayer
         android
         avcodec avformat avutil swscale swresample
+        GLESv2 EGL OpenSLES
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib} )
