@@ -19,6 +19,7 @@ public:
 protected:
     bool isExit = false;
     bool isRunning = false;
+
 private:
     void threadMain();
 };
