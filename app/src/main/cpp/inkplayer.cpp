@@ -19,7 +19,12 @@ Java_pers_hexuren_inkplayer_InkPlayer_open(JNIEnv *env, jclass type, jstring pat
     const char *path = env->GetStringUTFChars(path_, 0);
 
     IDemux *demux = new InkDemux();
-    demux->open(path);
+    bool re = demux->open(path);
 
+    if(re) {
+        demux->start();
+        InkSleep(3000);
+        demux->stop();
+    }
     env->ReleaseStringUTFChars(path_, path);
 }

@@ -8,15 +8,27 @@
 bool InkDemux::open(const char *url) {
 
     int re = avformat_open_input(&fc, url, 0, 0);
-    if(!re) {
+    if(re != 0) {
         LOGE("打开失败: %s", av_err2str(re));
+        return false;
     }
     LOGI("打开成功");
     return true;
 }
 
 InkData InkDemux::read() {
+    if(!fc) return InkData();
     InkData inkData;
+    AVPacket *pkt = av_packet_alloc();
+    int re = av_read_frame(fc, pkt);
+    if(re != 0) {
+        av_packet_free(&pkt);
+        return InkData();
+    }
+    LOGI("packet size is: %d pts is: %d", pkt->size, pkt->pts);
+    inkData.data = (unsigned char *) pkt;
+    inkData.size = pkt->size;
+
     return inkData;
 }
 

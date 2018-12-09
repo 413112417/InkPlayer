@@ -6,8 +6,14 @@
 #define INKPLAYER_INKDATA_H
 
 
-class InkData {
+struct InkData {
+    unsigned char *data = 0;
+    int size = 0;
 
+    /**
+     * 清理数据
+     */
+    void drop();
 };
 
 

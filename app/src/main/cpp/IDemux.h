@@ -7,11 +7,12 @@
 
 
 #include "InkData.h"
+#include "InkThread.h"
 
 /**
  * 解封装接口
  */
-class IDemux {
+class IDemux : public InkThread {
 
 public:
 
@@ -27,6 +28,9 @@ public:
      * @return
      */
     virtual InkData read() = 0;
+
+protected:
+    virtual void run();
 };
 
 

@@ -3,3 +3,9 @@
 //
 
 #include "IDemux.h"
+
+void IDemux::run() {
+    while (!isExit) {
+        InkData data = read();
+    }
+}
