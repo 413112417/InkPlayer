@@ -15,13 +15,6 @@ extern "C" {
 #include <libswresample/swresample.h>
 }
 
-class TestObserver : public IObserver {
-public:
-    void update(InkData data) {
-        LOGI("test update data size=%d", data.size);
-    }
-};
-
 extern "C"
 JNIEXPORT void JNICALL
 Java_pers_hexuren_inkplayer_InkPlayer_open(JNIEnv *env, jclass type, jstring path_) {
@@ -32,13 +25,19 @@ Java_pers_hexuren_inkplayer_InkPlayer_open(JNIEnv *env, jclass type, jstring pat
     bool re = demux->open(path);
 
     if(re) {
-        TestObserver *testObserver = new TestObserver();
-        demux->addObserver(testObserver);
+        IDecode *aDecode = new InkDecode();
+        aDecode->open(demux->getAudioParameters());
 
         IDecode *vDecode = new InkDecode();
         vDecode->open(demux->getVideoParameters());
 
+        demux->addObserver(aDecode);
+        demux->addObserver(vDecode);
+
         demux->start();
+        aDecode->start();
+        vDecode->start();
+
         ThreadSleep(3000);
         demux->stop();
     }

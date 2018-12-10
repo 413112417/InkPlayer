@@ -29,6 +29,11 @@ public:
     virtual DecodeParameters getVideoParameters();
 
     /**
+     * 获取音频参数
+     */
+    virtual DecodeParameters getAudioParameters();
+
+    /**
      * 读取一帧数据,数据由调用者清理
      * @return
      */
@@ -36,6 +41,8 @@ public:
 
 private:
     AVFormatContext *fc = 0;
+    int audioStream = 1;
+    int videoStream = 0;
 };
 
 

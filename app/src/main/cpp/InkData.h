@@ -9,6 +9,7 @@
 struct InkData {
     unsigned char *data = 0;
     int size = 0;
+    bool isAudio = false;
 
     /**
      * 清理数据

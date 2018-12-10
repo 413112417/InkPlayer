@@ -30,6 +30,11 @@ public:
     virtual DecodeParameters getVideoParameters() = 0;
 
     /**
+     * 获取音频参数
+     */
+    virtual DecodeParameters getAudioParameters() = 0;
+
+    /**
      * 读取一帧数据,数据由调用者清理
      * @return
      */

@@ -30,6 +30,12 @@ bool InkDecode::open(DecodeParameters parameters) {
         LOGE("avcodec_open2 failed");
         return false;
     }
+
+    if(codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+        isAudio = false;
+    } else {
+        isAudio = true;
+    }
     LOGI("avcodec_open2 success");
     return true;
 }
@@ -64,6 +70,7 @@ InkData InkDecode::receiveFrame() {
     if(re != 0) {
         return InkData();
     }
+
     InkData data;
     data.data = reinterpret_cast<unsigned char *>(frame);
     if(codec->codec_type == AVMEDIA_TYPE_VIDEO) {

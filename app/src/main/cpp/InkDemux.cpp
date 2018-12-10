@@ -13,6 +13,8 @@ bool InkDemux::open(const char *url) {
         return false;
     }
     LOGI("打开成功");
+    getVideoParameters();
+    getAudioParameters();
     return true;
 }
 
@@ -26,6 +28,23 @@ DecodeParameters InkDemux::getVideoParameters() {
         LOGE("av_find_best_stream failed!");
         return DecodeParameters();
     }
+    videoStream = re;
+    DecodeParameters decodeParameters;
+    decodeParameters.param = fc->streams[re]->codecpar;
+    return decodeParameters;
+}
+
+DecodeParameters InkDemux::getAudioParameters() {
+    if(!fc) {
+        LOGE("getVideoParameters failed! fc is null");
+        return DecodeParameters();
+    }
+    int re = av_find_best_stream(fc, AVMEDIA_TYPE_AUDIO, -1, -1, 0, 0);
+    if(re < 0) {
+        LOGE("av_find_best_stream failed!");
+        return DecodeParameters();
+    }
+    audioStream = re;
     DecodeParameters decodeParameters;
     decodeParameters.param = fc->streams[re]->codecpar;
     return decodeParameters;
@@ -33,7 +52,7 @@ DecodeParameters InkDemux::getVideoParameters() {
 
 InkData InkDemux::read() {
     if(!fc) return InkData();
-    InkData inkData;
+    InkData data;
     AVPacket *pkt = av_packet_alloc();
     int re = av_read_frame(fc, pkt);
     if(re != 0) {
@@ -41,9 +60,17 @@ InkData InkDemux::read() {
         return InkData();
     }
     LOGI("packet size is: %d pts is: %lld", pkt->size, pkt->pts);
-    inkData.data = (unsigned char *) pkt;
-    inkData.size = pkt->size;
-    return inkData;
+    data.data = (unsigned char *) pkt;
+    data.size = pkt->size;
+    if(pkt->stream_index == audioStream) {
+        data.isAudio = true;
+    } else if(pkt->stream_index == videoStream) {
+        data.isAudio = false;
+    } else {
+        av_packet_free(&pkt);
+        return InkData();
+    }
+    return data;
 }
 
 InkDemux::InkDemux() {

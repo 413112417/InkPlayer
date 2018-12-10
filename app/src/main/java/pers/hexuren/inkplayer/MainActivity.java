@@ -16,6 +16,11 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         InkPlayer.open("/sdcard/test/1080.mp4");
     }
 }
