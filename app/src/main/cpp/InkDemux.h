@@ -24,13 +24,17 @@ public:
     virtual bool open(const char *url);
 
     /**
+     * 获取视频参数
+     */
+    virtual DecodeParameters getVideoParameters();
+
+    /**
      * 读取一帧数据,数据由调用者清理
      * @return
      */
     virtual InkData read();
 
 private:
-
     AVFormatContext *fc = 0;
 };
 

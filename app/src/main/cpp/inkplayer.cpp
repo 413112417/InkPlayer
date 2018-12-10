@@ -3,6 +3,8 @@
 #include "InkLog.h"
 #include "IDemux.h"
 #include "InkDemux.h"
+#include "IDecode.h"
+#include "InkDecode.h"
 
 extern "C" {
 #include <android/log.h>
@@ -32,6 +34,9 @@ Java_pers_hexuren_inkplayer_InkPlayer_open(JNIEnv *env, jclass type, jstring pat
     if(re) {
         TestObserver *testObserver = new TestObserver();
         demux->addObserver(testObserver);
+
+        IDecode *vDecode = new InkDecode();
+        vDecode->open(demux->getVideoParameters());
 
         demux->start();
         ThreadSleep(3000);

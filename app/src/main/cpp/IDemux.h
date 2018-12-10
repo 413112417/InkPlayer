@@ -8,6 +8,7 @@
 
 #include "InkData.h"
 #include "IObserver.h"
+#include "DecodeParameters.h"
 
 /**
  * 解封装接口
@@ -22,6 +23,11 @@ public:
      * @return
      */
     virtual bool open(const char *url) = 0;
+
+    /**
+     * 获取视频参数
+     */
+    virtual DecodeParameters getVideoParameters() = 0;
 
     /**
      * 读取一帧数据,数据由调用者清理

@@ -16,6 +16,21 @@ bool InkDemux::open(const char *url) {
     return true;
 }
 
+DecodeParameters InkDemux::getVideoParameters() {
+    if(!fc) {
+        LOGE("getVideoParameters failed! fc is null");
+        return DecodeParameters();
+    }
+    int re = av_find_best_stream(fc, AVMEDIA_TYPE_VIDEO, -1, -1, 0, 0);
+    if(re < 0) {
+        LOGE("av_find_best_stream failed!");
+        return DecodeParameters();
+    }
+    DecodeParameters decodeParameters;
+    decodeParameters.param = fc->streams[re]->codecpar;
+    return decodeParameters;
+}
+
 InkData InkDemux::read() {
     if(!fc) return InkData();
     InkData inkData;
@@ -25,7 +40,7 @@ InkData InkDemux::read() {
         av_packet_free(&pkt);
         return InkData();
     }
-    LOGI("packet size is: %d pts is: %d", pkt->size, pkt->pts);
+    LOGI("packet size is: %d pts is: %lld", pkt->size, pkt->pts);
     inkData.data = (unsigned char *) pkt;
     inkData.size = pkt->size;
     return inkData;

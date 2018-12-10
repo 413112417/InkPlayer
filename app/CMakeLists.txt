@@ -43,7 +43,10 @@ add_library( # Sets the name of the library.
         src/main/cpp/InkDemux.cpp
         src/main/cpp/InkData.cpp
         src/main/cpp/InkThread.cpp
-        src/main/cpp/IObserver.cpp)
+        src/main/cpp/IObserver.cpp
+        src/main/cpp/IDecode.cpp
+        src/main/cpp/InkDecode.cpp
+        src/main/cpp/DecodeParameters.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
