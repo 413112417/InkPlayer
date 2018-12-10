@@ -8,7 +8,7 @@
 #include <thread>
 using namespace std;
 
-void InkSleep(int mis) {
+void ThreadSleep(int mis) {
     chrono::milliseconds du(mis);
     this_thread::sleep_for(du);
 }
@@ -26,7 +26,7 @@ void InkThread::stop() {
             LOGI("停止线程成功");
             return;
         }
-        InkSleep(1);
+        ThreadSleep(1);
     }
     LOGD("停止线程超时");
 }

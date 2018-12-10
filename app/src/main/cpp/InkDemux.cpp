@@ -28,7 +28,6 @@ InkData InkDemux::read() {
     LOGI("packet size is: %d pts is: %d", pkt->size, pkt->pts);
     inkData.data = (unsigned char *) pkt;
     inkData.size = pkt->size;
-
     return inkData;
 }
 
@@ -49,5 +48,4 @@ InkDemux::InkDemux() {
         avformat_network_init();
         LOGI("初始化网络成功");
     }
-
 };

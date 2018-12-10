@@ -7,12 +7,12 @@
 
 
 #include "InkData.h"
-#include "InkThread.h"
+#include "IObserver.h"
 
 /**
  * 解封装接口
  */
-class IDemux : public InkThread {
+class IDemux : public IObserver {
 
 public:
 

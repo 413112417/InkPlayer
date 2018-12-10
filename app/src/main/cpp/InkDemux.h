@@ -17,10 +17,10 @@ public:
     InkDemux();
 
     /**
-         * 打开文件或者流媒体 支持rtsp rtmp http
-         * @param url
-         * @return
-         */
+     * 打开文件或者流媒体 支持rtsp rtmp http
+     * @param url
+     * @return
+     */
     virtual bool open(const char *url);
 
     /**

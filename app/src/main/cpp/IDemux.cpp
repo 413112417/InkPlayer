@@ -7,5 +7,8 @@
 void IDemux::run() {
     while (!isExit) {
         InkData data = read();
+        if(data.size > 0) {
+            notify(data);
+        }
     }
 }
